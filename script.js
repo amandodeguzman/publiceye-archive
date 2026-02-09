@@ -1,507 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARMANI / Archivio</title>
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-
-html{
-  height:100%;
-  overflow:hidden;
-}
-
-body{
-  height:100%;
-  font-family:Helvetica,Arial,sans-serif;
-  color:#000;
-  background:#fff;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-}
-
-a{text-decoration:none;color:inherit}
-button{background:none;border:none;cursor:pointer;font:inherit;color:inherit}
-img{display:block;max-width:100%}
-
-::-webkit-scrollbar{width:0;height:0}
-*{scrollbar-width:none}
-
-.header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:18px 24px;
-  position:sticky;
-  top:0;
-  z-index:100;
-  background:#fff;
-  flex-shrink:0;
-  border-bottom:1px solid #000;
-}
-
-.logo{
-  font-size:22px;
-  letter-spacing:1.5px;
-  white-space:nowrap;
-}
-.logo-brand{font-weight:700;text-transform:uppercase;letter-spacing:2px}
-.logo-sep{font-weight:300;margin:0 2px}
-.logo-sub{font-weight:300;font-style:italic;font-size:22px}
-
-.nav{display:flex;align-items:center;gap:28px}
-.nav-link{font-size:15px;letter-spacing:.3px;cursor:pointer}
-.nav-link:hover{opacity:.6}
-
-.search-wrap{position:relative;display:flex;align-items:center}
-.search-link{font-size:15px;letter-spacing:.3px;cursor:pointer}
-.search-link:hover{opacity:.6}
-.search-input{
-  font-size:15px;
-  letter-spacing:.3px;
-  border:none;
-  outline:none;
-  padding:0;
-  width:180px;
-  max-width:180px;
-  font-family:Helvetica,Arial,sans-serif;
-  display:none;
-  background:transparent;
-  color:#000;
-  text-align:right;
-}
-.search-input.active{display:block}
-.search-link.hidden{display:none}
-
-.lang-wrap{position:relative}
-.lang-btn{
-  display:flex;align-items:center;gap:4px;
-  font-size:15px;letter-spacing:.3px;cursor:pointer;
-}
-.lang-btn svg{width:12px;height:12px;transition:transform .2s}
-.lang-btn.open svg{transform:rotate(180deg)}
-
-.lang-dropdown{
-  position:absolute;top:calc(100% + 8px);right:0;
-  background:#fff;min-width:60px;
-  display:none;z-index:200;
-}
-.lang-dropdown.open{display:block}
-.lang-option{
-  padding:8px 14px;font-size:15px;cursor:pointer;
-  border-bottom:1px solid #e0e0e0;
-}
-.lang-option:last-child{border-bottom:none}
-.lang-option:hover,.lang-option.active{background:#000;color:#fff}
-
-.hamburger{
-  display:none;
-  flex-direction:column;justify-content:center;gap:6px;
-  width:32px;height:32px;cursor:pointer;
-}
-.hamburger span{display:block;width:100%;height:2px;background:#000}
-
-.mobile-menu{
-  display:none;
-  position:fixed;top:0;left:0;right:0;bottom:0;
-  background:#fff;z-index:150;
-  flex-direction:column;padding:80px 24px 24px;
-}
-.mobile-menu.open{display:flex}
-.mobile-menu-close{
-  position:absolute;top:20px;right:24px;
-  font-size:28px;cursor:pointer;
-  background:none;border:none;
-}
-.mobile-menu a,.mobile-menu .lang-mobile{
-  font-size:20px;padding:16px 0;
-  border-bottom:1px solid #e0e0e0;
-  display:block;
-}
-
-.page-body{
-  flex:1;
-  overflow-y:auto;
-  overflow-x:hidden;
-}
-
-.main{
-  display:grid;
-  grid-template-columns:minmax(0,5fr) minmax(0,3fr) minmax(0,4fr);
-  min-height:100%;
-}
-
-.left-panel{
-  position:relative;
-}
-
-.decade-header-sticky{
-  position:sticky;
-  top:0;
-  z-index:50;
-  background:#fff;
-  padding:10px 24px 0;
-}
-
-.decade-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:10px 0 16px;
-}
-.decade-title{
-  font-size:clamp(72px,8vw,130px);
-  font-weight:300;
-  line-height:.9;
-  letter-spacing:-2px;
-}
-.decade-toggle{
-  width:48px;height:48px;
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;flex-shrink:0;
-}
-.decade-toggle svg{
-  width:32px;height:32px;
-  transition:transform .2s;
-}
-.decade-toggle.open svg{transform:rotate(180deg)}
-
-.decade-line{height:2px;background:#000}
-
-.decade-dropdown{
-  display:none;
-  background:#fff;
-  position:relative;
-  z-index:50;
-}
-.decade-dropdown.open{display:block}
-.decade-option{
-  padding:14px 16px;
-  font-size:18px;
-  cursor:pointer;
-  border-bottom:1px solid #e0e0e0;
-}
-.decade-option:hover{background:#f0f0f0}
-.decade-option.active{background:#000;color:#fff}
-
-.thumbnails-area{padding:16px 24px 80vh}
-
-.decade-section{margin-bottom:40px}
-.decade-section:last-child{margin-bottom:0}
-.decade-section-label{
-  font-size:14px;
-  margin-bottom:10px;
-  letter-spacing:.3px;
-  color:#000;
-}
-
-.thumb-grid{
-  display:grid;
-  grid-template-columns:repeat(6,1fr);
-  gap:10px;
-}
-.thumb-cell{
-  aspect-ratio:4/5;
-  overflow:hidden;
-  cursor:pointer;
-  position:relative;
-}
-.thumb-cell img{
-  width:100%;height:100%;
-  object-fit:cover;
-  transition:opacity .2s;
-}
-.thumb-cell:hover img{opacity:.75}
-.thumb-cell.active{opacity:.85}
-
-.middle-panel{
-  border-left:1px solid #000;
-  padding:30px 32px 40px;
-  position:sticky;
-  top:0;
-  height:100vh;
-  overflow-y:auto;
-}
-
-.detail-year{
-  font-size:20px;
-  margin-bottom:24px;
-  letter-spacing:.3px;
-  color:#000;
-}
-
-.detail-desc{
-  font-size:18px;
-  line-height:1.55;
-  margin-bottom:32px;
-  color:#000;
-}
-
-.detail-credit{
-  font-size:14px;
-  line-height:1.5;
-  color:#000;
-}
-
-.right-panel{
-  border-left:1px solid #000;
-  position:sticky;
-  top:0;
-  height:100vh;
-  padding:24px;
-  display:flex;
-  align-items:flex-start;
-}
-.right-panel img{
-  width:100%;
-  max-height:calc(100vh - 48px);
-  object-fit:contain;
-  object-position:top;
-}
-
-.bottom-section{
-  border-top:1px solid #000;
-}
-
-.bottom-content{
-  padding:48px 24px 80px;
-}
-
-.bottom-title{
-  font-size:clamp(32px,4vw,52px);
-  font-weight:300;
-  line-height:1.15;
-  margin-bottom:16px;
-  color:#000;
-}
-
-.bottom-desc{
-  font-size:16px;
-  line-height:1.55;
-  color:#000;
-  margin-bottom:24px;
-  max-width:600px;
-}
-
-.bottom-btn{
-  display:inline-block;
-  padding:10px 20px;
-  background:#000;
-  color:#fff;
-  font-size:12px;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
-  cursor:pointer;
-  border:none;
-  font-family:Helvetica,Arial,sans-serif;
-}
-.bottom-btn:hover{opacity:.8}
-
-.footer{
-  border-top:1px solid #000;
-}
-
-.footer-row{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  border-bottom:1px solid #000;
-}
-.footer-row:last-child{border-bottom:none}
-
-.footer-cell{
-  padding:14px 24px;
-  font-size:13px;
-  color:#000;
-  border-right:1px solid #000;
-  display:flex;
-  align-items:center;
-}
-.footer-cell:last-child{border-right:none}
-.footer-cell a{color:#000;text-decoration:none}
-.footer-cell a:hover{opacity:.6}
-
-.footer-icons{
-  display:flex;
-  align-items:center;
-  gap:16px;
-  justify-content:center;
-}
-.footer-icons a{display:flex;align-items:center}
-.footer-icons svg{width:18px;height:18px;fill:#000}
-
-.mobile-detail-overlay{
-  display:none;
-  position:fixed;top:0;left:0;right:0;bottom:0;
-  background:#fff;z-index:300;
-  overflow-y:auto;
-  padding:0;
-}
-.mobile-detail-overlay.open{display:block}
-.mobile-detail-top{
-  position:sticky;top:0;background:#fff;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 24px;border-bottom:1px solid #000;
-  z-index:10;
-}
-.mobile-detail-back{font-size:16px;cursor:pointer;background:none;border:none;color:#000}
-.mobile-detail-body{padding:24px}
-.mobile-detail-body img{
-  width:100%;aspect-ratio:4/5;object-fit:cover;
-  margin-bottom:24px;
-}
-.mobile-detail-body .detail-year{margin-bottom:16px}
-.mobile-detail-body .detail-desc{font-size:16px;margin-bottom:20px}
-.mobile-detail-body .detail-credit{font-size:13px}
-
-@media(max-width:1024px){
-  .main{grid-template-columns:minmax(0,5fr) minmax(0,3.5fr) minmax(0,3.5fr)}
-  .thumb-grid{grid-template-columns:repeat(6,1fr);gap:8px}
-  .decade-title{letter-spacing:-1px}
-}
-
-@media(max-width:768px){
-  html{overflow:auto}
-  body{overflow:auto;display:block}
-
-  .nav{display:none}
-  .hamburger{display:flex}
-  .header{padding:16px 20px}
-
-  .page-body{overflow:visible}
-
-  .main{
-    display:block;
-    min-height:auto;
-  }
-
-  .left-panel{
-    padding:0;
-  }
-
-  .decade-header-sticky{
-    padding:10px 20px 0;
-  }
-
-  .thumbnails-area{padding:16px 20px 60vh}
-
-  .middle-panel,.right-panel{display:none}
-
-  .thumb-grid{
-    grid-template-columns:repeat(3,1fr);
-    gap:6px;
-  }
-
-  .decade-header{padding:8px 0 12px}
-  .decade-title{font-size:clamp(56px,14vw,90px)}
-  .decade-toggle svg{width:28px;height:28px}
-  .decade-option{font-size:16px;padding:12px 14px}
-  .decade-section-label{font-size:13px}
-
-  .footer-row{grid-template-columns:repeat(2,1fr)}
-  .footer-cell{padding:12px 16px;font-size:12px}
-
-  .bottom-content{padding:32px 20px 60px}
-}
-</style>
-</head>
-<body>
-
-<header class="header" id="siteHeader">
-  <div class="logo">
-    <span class="logo-brand">ARMANI</span><span class="logo-sep"> / </span><span class="logo-sub">Archivio</span>
-  </div>
-  <nav class="nav">
-    <div class="search-wrap" id="searchWrap">
-      <span class="search-link" id="searchLink">search the archive</span>
-      <input type="text" class="search-input" id="searchInput" placeholder="">
-    </div>
-    <a class="nav-link" href="#">about</a>
-    <div class="lang-wrap">
-      <button class="lang-btn" id="langBtn">
-        <span id="langLabel">en</span>
-        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l4 4 4-4"/></svg>
-      </button>
-      <div class="lang-dropdown" id="langDropdown"></div>
-    </div>
-  </nav>
-  <button class="hamburger" id="hamburgerBtn">
-    <span></span><span></span><span></span>
-  </button>
-</header>
-
-<div class="mobile-menu" id="mobileMenu">
-  <button class="mobile-menu-close" id="mobileMenuClose">&#215;</button>
-  <a href="#">search the archive</a>
-  <a href="#">about</a>
-  <div class="lang-mobile" id="langMobile">en</div>
-</div>
-
-<div class="page-body" id="pageBody">
-  <main class="main" id="mainGrid">
-    <section class="left-panel" id="leftPanel">
-      <div class="decade-header-sticky" id="decadeHeaderSticky">
-        <div class="decade-header">
-          <h1 class="decade-title" id="decadeTitle"></h1>
-          <button class="decade-toggle" id="decadeToggle">
-            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 12l10 10 10-10"/></svg>
-          </button>
-        </div>
-        <div class="decade-line"></div>
-        <div class="decade-dropdown" id="decadeDropdown"></div>
-      </div>
-      <div class="thumbnails-area" id="thumbsArea"></div>
-    </section>
-    <section class="middle-panel" id="middlePanel">
-      <div class="detail-year" id="detailYear"></div>
-      <div class="detail-desc" id="detailDesc"></div>
-      <div class="detail-credit" id="detailCredit"></div>
-    </section>
-    <section class="right-panel" id="rightPanel">
-      <img id="featuredImg" src="" alt="Featured">
-    </section>
-  </main>
-
-  <section class="bottom-section">
-    <div class="bottom-content">
-      <h2 class="bottom-title">All looks on view</h2>
-      <p class="bottom-desc">Discover the current selection of looks and collections, accessible online for a limited time only.</p>
-      <button class="bottom-btn">EXPLORE ALL</button>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="footer-row">
-      <div class="footer-cell"><a href="#">Privacy Policy</a></div>
-      <div class="footer-cell"><a href="#">Cookie policy</a></div>
-      <div class="footer-cell"><a href="#">Cookie settings</a></div>
-      <div class="footer-cell"><a href="#">Terms and conditions</a></div>
-    </div>
-    <div class="footer-row">
-      <div class="footer-cell"><span>&#169;2025 Giorgio Armani</span></div>
-      <div class="footer-cell"><a href="#">Contact Us</a></div>
-      <div class="footer-cell"><a href="#">Armani.com</a></div>
-      <div class="footer-cell">
-        <div class="footer-icons">
-          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
-          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
-        </div>
-      </div>
-    </div>
-  </footer>
-</div>
-
-<div class="mobile-detail-overlay" id="mobileDetail">
-  <div class="mobile-detail-top">
-    <button class="mobile-detail-back" id="mobileDetailBack">&#8592; Back</button>
-  </div>
-  <div class="mobile-detail-body" id="mobileDetailBody"></div>
-</div>
-
-<script>
 var DECADES = [
   {
     id:'1970s',
@@ -552,7 +48,7 @@ var DECADES = [
     id:'2010s',
     items:[
       {year:'2010',desc:'The Armani Hotel Dubai opens inside the Burj Khalifa, the tallest building in the world. The interiors reflect the same minimalist elegance that defines every Armani creation, extending the design philosophy to hospitality.',credit:'Armani Hotel Dubai, Burj Khalifa, 2010',img:'https://picsum.photos/seed/a10a/800/1000'},
-      {year:'2011',desc:'Armani Hotel Milano opens on Via Manzoni, completing the hospitality vision with a flagship property in the heart of Milan\u2019s fashion district.',credit:'Armani Hotel Milano, Via Manzoni, 2011',img:'https://picsum.photos/seed/a10b/800/1000'},
+      {year:'2011',desc:'The Spring/Summer 2011 collection, titled La Femme Bleue, is built around an obsession with blue\u2014an absolute color: matte, luminous, iridescent, transparent. Drawing inspiration from the Tuareg\u2014the "blue men" of the desert\u2014Armani translates this visual and cultural reference into a feminine code, revealing a figure that is both hieratic and contemporary, essential yet powerful.',credit:'Catwalk finale of the Spring\u2013Summer 2011 Womenswear collection. Photography by David McKnight-Peterson. Models: Emiliano Ottavi and Magdalena Frackowiak',img:'https://picsum.photos/seed/a10b/800/1000'},
       {year:'2013',desc:'Giorgio Armani receives the Lifetime Achievement Award from the British Fashion Council in London. The honor recognizes four decades of influence on global fashion.',credit:'BFC Lifetime Achievement Award, London, 2013',img:'https://picsum.photos/seed/a10c/800/1000'},
       {year:'2015',desc:'Armani celebrates 40 years with a major exhibition at the Armani/Silos museum in Milan. The converted 1950s granary becomes a permanent home for the brand\u2019s creative archive.',credit:'Armani/Silos museum opening, Milan, 2015',img:'https://picsum.photos/seed/a10d/800/1000'},
       {year:'2016',desc:'The brand continues to evolve its digital presence, embracing new platforms while maintaining the timeless quality that has defined the Armani aesthetic from the beginning.',credit:'Armani digital campaign, 2016',img:'https://picsum.photos/seed/a10e/800/1000'},
@@ -569,19 +65,70 @@ var DECADES = [
   }
 ];
 
-var LANGS = ['it','en','ja'];
+var MODES = ['light','dark','system'];
 
 var state = {
   currentDecade:0,
   currentItem:0,
   dropdownOpen:false,
-  langOpen:false,
+  modeOpen:false,
   mobileMenuOpen:false,
-  visibleDecade:0
+  visibleDecade:0,
+  themeMode:'light'
 };
 
 function thumbUrl(decadeIdx,itemIdx){
   return 'https://picsum.photos/seed/t'+decadeIdx+'-'+itemIdx+'/400/500';
+}
+
+function applyTheme(mode){
+  state.themeMode=mode;
+  var body=document.body;
+
+  if(mode==='dark'){
+    body.classList.add('dark');
+  } else if(mode==='system'){
+    var prefersDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if(prefersDark){
+      body.classList.add('dark');
+    } else {
+      body.classList.remove('dark');
+    }
+  } else {
+    body.classList.remove('dark');
+  }
+
+  updateModeDropdown();
+}
+
+function updateModeDropdown(){
+  var options=document.querySelectorAll('.mode-option');
+  options.forEach(function(opt){
+    if(opt.getAttribute('data-mode')===state.themeMode){
+      opt.classList.add('active');
+    } else {
+      opt.classList.remove('active');
+    }
+  });
+}
+
+function renderModeDropdown(){
+  var el=document.getElementById('modeDropdown');
+  var html='';
+  MODES.forEach(function(m){
+    html+='<div class="mode-option'+(m===state.themeMode?' active':'')+'" data-mode="'+m+'">'+m+'</div>';
+  });
+  el.innerHTML=html;
+  el.querySelectorAll('.mode-option').forEach(function(opt){
+    opt.addEventListener('click',function(e){
+      e.stopPropagation();
+      var mode=this.getAttribute('data-mode');
+      applyTheme(mode);
+      state.modeOpen=false;
+      document.getElementById('modeBtn').className='mode-btn';
+      document.getElementById('modeDropdown').className='mode-dropdown';
+    });
+  });
 }
 
 function renderDecadeDropdown(){
@@ -607,11 +154,12 @@ function scrollToDecadeSection(idx){
   if(section){
     var stickyHeight=document.getElementById('decadeHeaderSticky').offsetHeight;
     var container=document.getElementById('pageBody');
+    var offset;
     if(window.innerWidth>768){
-      var offset=section.offsetTop-stickyHeight;
+      offset=section.offsetTop-stickyHeight;
       container.scrollTo({top:offset,behavior:'smooth'});
     } else {
-      var offset=section.getBoundingClientRect().top+window.scrollY-stickyHeight-60;
+      offset=section.getBoundingClientRect().top+window.scrollY-stickyHeight-60;
       window.scrollTo({top:offset,behavior:'smooth'});
     }
   }
@@ -671,15 +219,6 @@ function renderDetail(){
   document.getElementById('featuredImg').alt=d.id+' - '+item.year;
 }
 
-function renderLangDropdown(){
-  var el=document.getElementById('langDropdown');
-  var html='';
-  LANGS.forEach(function(l){
-    html+='<div class="lang-option'+(l==='en'?' active':'')+'">'+l+'</div>';
-  });
-  el.innerHTML=html;
-}
-
 function updateStickyDecadeTitle(){
   var sections=document.querySelectorAll('[data-decade-section]');
   var stickyEl=document.getElementById('decadeHeaderSticky');
@@ -709,13 +248,14 @@ function render(){
   var ddEl=document.getElementById('decadeDropdown');
   ddEl.className='decade-dropdown'+(state.dropdownOpen?' open':'');
 
-  var langBtnEl=document.getElementById('langBtn');
-  langBtnEl.className='lang-btn'+(state.langOpen?' open':'');
+  var modeBtnEl=document.getElementById('modeBtn');
+  modeBtnEl.className='mode-btn'+(state.modeOpen?' open':'');
 
-  var langDdEl=document.getElementById('langDropdown');
-  langDdEl.className='lang-dropdown'+(state.langOpen?' open':'');
+  var modeDdEl=document.getElementById('modeDropdown');
+  modeDdEl.className='mode-dropdown'+(state.modeOpen?' open':'');
 
   renderDecadeDropdown();
+  renderModeDropdown();
   renderThumbnails();
   renderDetail();
 }
@@ -763,9 +303,17 @@ function initSearch(){
 }
 
 function init(){
-  renderLangDropdown();
   render();
   initSearch();
+  applyTheme('light');
+
+  if(window.matchMedia){
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){
+      if(state.themeMode==='system'){
+        applyTheme('system');
+      }
+    });
+  }
 
   var scrollTarget=document.getElementById('pageBody');
 
@@ -791,13 +339,13 @@ function init(){
 
   document.getElementById('decadeToggle').addEventListener('click',function(){
     state.dropdownOpen=!state.dropdownOpen;
-    state.langOpen=false;
+    state.modeOpen=false;
     render();
   });
 
-  document.getElementById('langBtn').addEventListener('click',function(e){
+  document.getElementById('modeBtn').addEventListener('click',function(e){
     e.stopPropagation();
-    state.langOpen=!state.langOpen;
+    state.modeOpen=!state.modeOpen;
     state.dropdownOpen=false;
     render();
   });
@@ -814,11 +362,16 @@ function init(){
 
   document.getElementById('mobileDetailBack').addEventListener('click',closeMobileDetail);
 
+  var eyeContainer=document.getElementById('logoEye');
+  if(eyeContainer){
+    createEyeLogo(eyeContainer,36);
+  }
+
   document.addEventListener('click',function(e){
-    if(!e.target.closest('.lang-wrap')){
-      state.langOpen=false;
-      document.getElementById('langBtn').className='lang-btn';
-      document.getElementById('langDropdown').className='lang-dropdown';
+    if(!e.target.closest('.mode-wrap')){
+      state.modeOpen=false;
+      document.getElementById('modeBtn').className='mode-btn';
+      document.getElementById('modeDropdown').className='mode-dropdown';
     }
     if(!e.target.closest('.decade-header')&&!e.target.closest('.decade-dropdown')){
       state.dropdownOpen=false;
@@ -829,6 +382,3 @@ function init(){
 }
 
 document.addEventListener('DOMContentLoaded',init);
-</script>
-</body>
-</html>

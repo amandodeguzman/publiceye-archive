@@ -1,0 +1,55 @@
+.eye-logo{
+  display:inline-block;
+  cursor:pointer;
+  vertical-align:middle;
+  user-select:none;
+  -webkit-user-select:none;
+}
+
+.eye-logo svg{
+  display:block;
+  overflow:visible;
+}
+
+.eye-logo .eye-shape,
+.eye-logo .eye-clip-path{
+  transition:d 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+.eye-logo.blinking .eye-shape{
+  animation:eyeShapeBlink 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+.eye-logo.blinking .eye-clip-path{
+  animation:eyeClipBlink 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+@keyframes eyeShapeBlink{
+  0%{d:path("M 0 50 Q 50 0 100 0 Q 150 0 200 50 Q 150 100 100 100 Q 50 100 0 50 Z")}
+  20%{d:path("M 0 50 Q 50 15 100 15 Q 150 15 200 50 Q 150 85 100 85 Q 50 85 0 50 Z")}
+  40%{d:path("M 0 50 Q 50 30 100 30 Q 150 30 200 50 Q 150 70 100 70 Q 50 70 0 50 Z")}
+  50%{d:path("M 0 50 Q 50 45 100 45 Q 150 45 200 50 Q 150 55 100 55 Q 50 55 0 50 Z")}
+  60%{d:path("M 0 50 Q 50 30 100 30 Q 150 30 200 50 Q 150 70 100 70 Q 50 70 0 50 Z")}
+  80%{d:path("M 0 50 Q 50 15 100 15 Q 150 15 200 50 Q 150 85 100 85 Q 50 85 0 50 Z")}
+  100%{d:path("M 0 50 Q 50 0 100 0 Q 150 0 200 50 Q 150 100 100 100 Q 50 100 0 50 Z")}
+}
+
+@keyframes eyeClipBlink{
+  0%{d:path("M 0 50 Q 50 0 100 0 Q 150 0 200 50 Q 150 100 100 100 Q 50 100 0 50 Z")}
+  20%{d:path("M 0 50 Q 50 15 100 15 Q 150 15 200 50 Q 150 85 100 85 Q 50 85 0 50 Z")}
+  40%{d:path("M 0 50 Q 50 30 100 30 Q 150 30 200 50 Q 150 70 100 70 Q 50 70 0 50 Z")}
+  50%{d:path("M 0 50 Q 50 45 100 45 Q 150 45 200 50 Q 150 55 100 55 Q 50 55 0 50 Z")}
+  60%{d:path("M 0 50 Q 50 30 100 30 Q 150 30 200 50 Q 150 70 100 70 Q 50 70 0 50 Z")}
+  80%{d:path("M 0 50 Q 50 15 100 15 Q 150 15 200 50 Q 150 85 100 85 Q 50 85 0 50 Z")}
+  100%{d:path("M 0 50 Q 50 0 100 0 Q 150 0 200 50 Q 150 100 100 100 Q 50 100 0 50 Z")}
+}
+
+.eye-logo.closed .eye-shape{
+  d:path("M 0 50 Q 50 50 100 50 Q 150 50 200 50 Q 150 50 100 50 Q 50 50 0 50 Z");
+}
+.eye-logo.closed .eye-clip-path{
+  d:path("M 0 50 Q 50 50 100 50 Q 150 50 200 50 Q 150 50 100 50 Q 50 50 0 50 Z");
+}
+
+body.dark .eye-logo .eye-outer{fill:#fff}
+body.dark .eye-logo .eye-pupil{fill:#000}
