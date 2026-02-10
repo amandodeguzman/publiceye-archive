@@ -364,7 +364,7 @@ function init(){
 
   var eyeContainer=document.getElementById('logoEye');
   if(eyeContainer){
-    createEyeLogo(eyeContainer,36);
+    createEyeLogo(eyeContainer,68);
   }
 
   document.addEventListener('click',function(e){
