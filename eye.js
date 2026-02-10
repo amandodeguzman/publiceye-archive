@@ -107,8 +107,7 @@ function createEyeLogo(container, size) {
 
     var angle = Math.atan2(mouseY - eyeCenterY, mouseX - eyeCenterX);
     var dist = Math.sqrt(Math.pow(mouseX - eyeCenterX, 2) + Math.pow(mouseY - eyeCenterY, 2));
-    // Limit pupil travel — reduced maxDist and movement multiplier
-    // so the pupil stays closer to center and doesn't reach the edge
+
     var maxDist = size * 0.15;
     var move = Math.min(dist * 0.06, maxDist);
 
