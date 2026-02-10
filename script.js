@@ -367,6 +367,110 @@ function init(){
     createEyeLogo(eyeContainer,68);
   }
 
+  /* ── Logo brand morph animation ── */
+  (function(){
+    var text1=document.getElementById('morphText1');
+    var text2=document.getElementById('morphText2');
+    var header=document.getElementById('siteHeader');
+    if(!text1||!text2||!header) return;
+
+    var morphTime=1.2;
+    var morph=0;
+    var time=Date.now();
+    var animating=false;
+    var rafId=null;
+    var revealing=false;
+
+    // Start hidden: text1=" " fully visible, text2="Publiceye" fully hidden
+    text1.textContent='\u00A0';
+    text2.textContent='Publiceye';
+    text1.style.opacity='100%';
+    text1.style.filter='blur(0px)';
+    text2.style.opacity='0%';
+    text2.style.filter='blur(100px)';
+
+    function setMorph(fraction){
+      // fraction goes from 0 (start) to 1 (done)
+      // text1 = the "from" text fading out
+      // text2 = the "to" text fading in
+      var fClamp=Math.max(fraction,0.001);
+      var inv=Math.max(1-fraction,0.001);
+
+      text2.style.filter='blur('+Math.min(8/fClamp-8,100)+'px)';
+      text2.style.opacity=String(Math.pow(fClamp,0.4)*100)+'%';
+
+      text1.style.filter='blur('+Math.min(8/inv-8,100)+'px)';
+      text1.style.opacity=String(Math.pow(inv,0.4)*100)+'%';
+    }
+
+    function finishMorph(){
+      text2.style.filter='blur(0px)';
+      text2.style.opacity='100%';
+      text1.style.filter='blur(100px)';
+      text1.style.opacity='0%';
+    }
+
+    function animate(){
+      if(!animating) return;
+      rafId=requestAnimationFrame(animate);
+
+      var now=Date.now();
+      var dt=(now-time)/1000;
+      time=now;
+
+      morph+=dt;
+      var fraction=morph/morphTime;
+
+      if(fraction>=1){
+        finishMorph();
+        animating=false;
+        if(rafId){ cancelAnimationFrame(rafId); rafId=null; }
+        return;
+      }
+
+      setMorph(fraction);
+    }
+
+    function startMorph(reveal){
+      // If already going the same direction, let it continue
+      if(reveal===revealing&&animating) return;
+      // If already at the target state and not animating, skip
+      if(reveal===revealing&&!animating) return;
+
+      revealing=reveal;
+
+      if(reveal){
+        text1.textContent='\u00A0';
+        text2.textContent='Publiceye';
+      } else {
+        text1.textContent='Publiceye';
+        text2.textContent='\u00A0';
+      }
+
+      // Start: text1 fully visible, text2 fully hidden
+      text1.style.opacity='100%';
+      text1.style.filter='blur(0px)';
+      text2.style.opacity='0%';
+      text2.style.filter='blur(100px)';
+
+      morph=0;
+      time=Date.now();
+      animating=true;
+
+      if(rafId){ cancelAnimationFrame(rafId); rafId=null; }
+      rafId=requestAnimationFrame(animate);
+    }
+
+    header.addEventListener('mouseenter',function(){
+      startMorph(true);
+    });
+
+    header.addEventListener('mouseleave',function(){
+      startMorph(false);
+    });
+  })();
+  /* ── End logo brand morph ── */
+
   document.addEventListener('click',function(e){
     if(!e.target.closest('.mode-wrap')){
       state.modeOpen=false;

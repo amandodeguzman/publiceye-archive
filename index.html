@@ -11,7 +11,24 @@
     <header class="header" id="siteHeader">
       <div class="logo">
         <span class="logo-eye" id="logoEye"></span>
-        <span class="logo-brand">Publiceye</span>
+        <span class="logo-brand" id="logoBrand">
+          <span class="morph-text" id="morphText1"></span>
+          <span class="morph-text" id="morphText2"></span>
+          <svg class="morph-filters" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="threshold">
+                <feColorMatrix
+                  in="SourceGraphic"
+                  type="matrix"
+                  values="1 0 0 0 0
+              0 1 0 0 0
+              0 0 1 0 0
+              0 0 0 255 -140"
+                />
+              </filter>
+            </defs>
+          </svg>
+        </span>
       </div>
       <nav class="nav">
         <div class="search-wrap" id="searchWrap">
