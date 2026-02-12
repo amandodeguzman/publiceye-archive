@@ -5,6 +5,13 @@
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: "Futura Bol";
+  src: url("./fonts/Futura-Bol.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
 
 *,
 *::before,
@@ -268,6 +275,228 @@ img {
   padding: 16px 0;
   border-bottom: 1px solid #e0e0e0;
   display: block;
+}
+
+/* ── Hero Section ── */
+.hero-section {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-bottom: 1px solid #000;
+  transition:
+    background 0.3s,
+    border-color 0.3s;
+}
+body.dark .hero-section {
+  background: #000;
+  border-color: #fff;
+}
+.hero-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 48px 48px;
+}
+.hero-top {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.hero-small-text {
+  display: block;
+  font-family: "Futura Boo", Helvetica, Arial, sans-serif;
+  font-size: clamp(16px, 2.2vw, 24px);
+  font-weight: 400;
+
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  color: #000;
+  transition: color 0.3s;
+}
+body.dark .hero-small-text {
+  color: #fff;
+}
+.hero-title {
+  font-family: "Futura Bol", "Futura Boo", Helvetica, Arial, sans-serif;
+  font-size: clamp(80px, 16vw, 220px);
+  font-weight: bold;
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+  color: #000;
+  transition: color 0.3s;
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+}
+body.dark .hero-title {
+  color: #fff;
+}
+
+/* Hero text parts that slide apart */
+.hero-text-left,
+.hero-text-right {
+  display: inline-block;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hero-text-left.spread {
+  transform: translateX(-0.12em);
+}
+.hero-text-right.spread {
+  transform: translateX(0.12em);
+}
+
+/* The SVG "o" / eye shape - always visible, inline with text */
+.hero-o-svg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Fixed size - large enough for both O and eye shapes */
+  width: 0.92em;
+  height: 0.58em;
+  position: relative;
+  vertical-align: baseline;
+  /* Offset to align with baseline of text */
+  top: 0.04em;
+  /* Pull wardr and be closer to the O */
+  margin-left: -0.08em;
+  margin-right: -0.15em;
+}
+.hero-o-svg svg {
+  overflow: visible;
+  display: block;
+  /* Fixed pixel-like size so the SVG doesn't rescale during morph */
+  width: 100%;
+  height: 100%;
+}
+#endPaths {
+  visibility: hidden;
+}
+#startPaths {
+  fill: #000;
+  transition: fill 0.3s;
+}
+body.dark #startPaths {
+  fill: #fff;
+}
+
+/* Blink animation for the hero morph SVG */
+#startPaths.blinking {
+  animation: heroEyeBlink 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center center;
+}
+@keyframes heroEyeBlink {
+  0% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.05);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+/* Hero footer row - single horizontal line */
+.hero-footer-row {
+  display: flex;
+  justify-content: center;
+  padding-top: 24px;
+}
+.hero-footer-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+.hero-caption {
+  font-size: 11px;
+  line-height: 1.35;
+  color: #000;
+  transition: color 0.3s;
+  text-align: left;
+  max-width: 280px;
+  margin: 0;
+}
+body.dark .hero-caption {
+  color: #fff;
+}
+.hero-logo-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+.hero-av-logo {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+  transition: filter 0.3s;
+}
+body.dark .hero-av-logo {
+  filter: invert(1);
+}
+.hero-brand-block {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.hero-brand-name {
+  font-family: "Futura Boo", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: -0.3px;
+  color: #000;
+  transition: color 0.3s;
+}
+body.dark .hero-brand-name {
+  color: #fff;
+}
+.hero-brand-sub {
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+  color: #000;
+  transition: color 0.3s;
+}
+body.dark .hero-brand-sub {
+  color: #fff;
+}
+.hero-film-logo {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  transition: filter 0.3s;
+}
+body.dark .hero-film-logo {
+  filter: invert(1);
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 100svh;
+  }
+  .hero-inner {
+    padding: 40px 24px 36px;
+  }
+  .hero-top {
+    margin-bottom: 36px;
+  }
+  .hero-footer-right {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+  .hero-caption {
+    max-width: 100%;
+    text-align: center;
+    flex-basis: 100%;
+  }
+  .hero-logo-group {
+    justify-content: center;
+  }
 }
 
 .page-body {
@@ -691,6 +920,21 @@ body.dark .search-input {
   color: #fff;
 }
 
+@media (max-width: 1280px) {
+  .decade-title {
+    font-size: 90px;
+    letter-spacing: -1px;
+  }
+  .decade-toggle {
+    width: 48px;
+    height: 48px;
+  }
+  .decade-toggle svg {
+    width: 48px;
+    height: 48px;
+  }
+}
+
 @media (max-width: 1024px) {
   .main {
     grid-template-columns: minmax(0, 5fr) minmax(0, 3.5fr) minmax(0, 3.5fr);
@@ -700,7 +944,19 @@ body.dark .search-input {
     gap: 8px;
   }
   .decade-title {
+    font-size: 72px;
     letter-spacing: -1px;
+  }
+  .decade-toggle {
+    width: 40px;
+    height: 40px;
+  }
+  .decade-toggle svg {
+    width: 40px;
+    height: 40px;
+  }
+  .decade-dropdown {
+    max-width: 100%;
   }
 }
 
